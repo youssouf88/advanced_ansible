@@ -1,0 +1,16 @@
+[webservers]
+ansible-node1
+ansible-node2
+
+[databases]
+ansible-node3
+ansible-node4
+
+[canada]
+rhel9-node1.camara.com
+rhel9-node2.camara.com
+
+[production:children]
+webservers
+databases
+

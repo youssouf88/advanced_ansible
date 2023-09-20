@@ -1,0 +1,43 @@
+---
+- name: just an example
+  hosts: webservers
+  tasks:
+    - name: creating bob user with uid of 4000
+      ansible.builtin.user:
+        name:  bob
+        uid: 4000
+        state: present
+    - name: installing httpd  
+      ansible.builtin.yum: 
+        name: httpd 
+        state: latest
+
+    - name: correct index.html is present
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+
+    - name: httpd is started
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+
+- name: just an example
+  hosts: databases
+  tasks:
+    - name: creating bob user with uid of 4000
+      user:
+        name:  bob
+        uid: 4000
+        state: present
+
+    - name: Install a list of packages (suitable replacement for 2.11 loop deprecation warning)
+      yum:
+        name:
+          - mariadb
+          - postgresql
+
+
+

@@ -1,0 +1,32 @@
+---
+- name: Enable intranet services
+  hosts: webservers
+  tasks: 
+
+    - name: test html page is installed
+      copy:
+        content: "Welcome to the example.com intranet!\n"
+        dest: /var/www/html/index.html
+
+    - name: firewalld enabled and running
+      service:
+        name: firewalld
+        enabled: true
+        state: started  
+
+    - name: firewalld permits access to httpd service
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes 
+
+
+- name: Test intranet web server
+  hosts: localhost
+  tasks:
+    - name: connect to intranet web server
+      uri:
+        url: http://192.168.1.57
+        return_content: yes
+        status_code: 200    
